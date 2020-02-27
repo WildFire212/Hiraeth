@@ -34,7 +34,8 @@ namespace Hiraeth
 			}
 
 			find->second.push(event);
-			HIRAETH_CORE_INFO("Event pushed: EventType::{0}", event->getName());
+			//HIRAETH_CORE_INFO("Event pushed: EventType::{0}", event->getName());
+			HIRAETH_CORE_INFO("Event pushed: {0}", event->toString());
 		}
 
 		void relayEvents();

@@ -8,7 +8,7 @@ namespace Hiraeth {
 	{
 		WindowResize, WindowClose , 
 		KeyPressed , KeyReleased , KeyTyped,
-		MouseButtonPressed, MouseButtonReleased, MouseScrolled
+		MouseMoved,MouseButtonPressed, MouseButtonReleased, MouseScrolled
 	};
 
 	

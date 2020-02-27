@@ -9,9 +9,12 @@ namespace Hiraeth
 		{
 			Event* evnt = i->second.front();
 			HandlerList* handlers = m_Subscribers[i->first];
-			for (EventSubscriberBase* eventBase : *handlers)
+			if (handlers != nullptr)
 			{
-				eventBase->execute(evnt);
+				for (EventSubscriberBase* eventBase : *handlers)
+				{
+					eventBase->execute(evnt);
+				}
 			}
 		}
 	}

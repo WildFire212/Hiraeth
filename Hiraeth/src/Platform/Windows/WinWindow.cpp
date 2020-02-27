@@ -1,7 +1,10 @@
 #include "WinWindow.h"
 #include"Hiraeth/Core/Log.h"
 #include"Hiraeth/Events/ApplicationEvent.h"
-#include"Hiraeth/Core/EventQueue.h"	
+#include"Hiraeth/Events/KeyEvent.h"
+#include"Hiraeth/Events/MouseEvent.h"
+#include"Hiraeth/Core/EventQueue.h"
+
 namespace Hiraeth {
 	static uint8_t m_GLFWWindowCount= 0;
 	WinWindow::WinWindow(const WindowProperties& props)
@@ -37,11 +40,39 @@ namespace Hiraeth {
 		//glfwMakeContextCurrent(m_Window); 
 		//glfwSetWindowUserPointer(m_Window, &m_Data); 
 
-		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) ->void
 			{
 				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 				WindowCloseEvent* closeEvent = new WindowCloseEvent();
 				EventQueue::getInstance()->publish<WindowCloseEvent>(closeEvent);
+			});
+
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window,double xPos, double yPos) ->void
+			{
+				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window)); 
+				MouseMovedEvent * mouseMovedEvent = new MouseMovedEvent(xPos, yPos);
+				EventQueue::getInstance()->publish<MouseMovedEvent>(mouseMovedEvent);
+			});
+
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window,int key,int scancode , int action , int mods) ->void
+			{
+				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+				Event* event; 
+				switch (action)
+				{
+				case GLFW_REPEAT: 
+					event = new KeyPressedEvent(key, 1);
+					EventQueue::getInstance()->publish< KeyPressedEvent>(event); 
+					break; 
+				case GLFW_PRESS: 
+					event = new KeyPressedEvent(key, 0); 
+					EventQueue::getInstance()->publish< KeyPressedEvent>(event);
+					break; 
+				case GLFW_RELEASE:
+					event = new KeyReleasedEvent(key); 
+					EventQueue::getInstance()->publish< KeyReleasedEvent>(event);
+					break;
+				}
 			});
 
 	}

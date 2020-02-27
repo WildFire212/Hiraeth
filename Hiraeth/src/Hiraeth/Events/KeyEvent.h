@@ -9,7 +9,7 @@ namespace Hiraeth
 		inline uint16_t getKeyCode() const { return m_KeyCode; }
 		EVENT_CLASS_CATEGORY( EventCategoryKeyboard); 
 	protected: 
-		KeyEvent(uint16_t keyCode): m_KeyCode(keyCode){ }
+		 KeyEvent(uint16_t keyCode): m_KeyCode(keyCode){ }
 		uint16_t m_KeyCode;  
 
 	};
@@ -26,7 +26,7 @@ namespace Hiraeth
 		std::string toString() const override 
 		{
 			std::stringstream keyPressedStream; 
-			keyPressedStream << "EVENT::KEYPRESSED: " << m_KeyCode << " (" << m_RepeatCount << ") repeats"; 
+			keyPressedStream << "KeyPressed Event: " << m_KeyCode << " (" << m_RepeatCount << ") repeats"; 
 			return keyPressedStream.str(); 
 		}
 

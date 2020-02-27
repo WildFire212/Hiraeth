@@ -29,6 +29,7 @@ namespace Hiraeth {
 		
 	}
 
+	
 	void Game::run()
 	{
 		HIRAETH_CORE_INFO("Engine is now running."); 
