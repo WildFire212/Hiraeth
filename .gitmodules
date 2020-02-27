@@ -1,0 +1,6 @@
+[submodule "Hiraeth/submodules/GLFW"]
+	path = Hiraeth/submodules/GLFW
+	url = https://github.com/glfw/glfw
+[submodule "Hiraeth/submodules/spdlog"]
+	path = Hiraeth/submodules/spdlog
+	url = https://github.com/gabime/spdlog
