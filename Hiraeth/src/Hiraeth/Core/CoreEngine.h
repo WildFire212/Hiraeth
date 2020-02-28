@@ -1,5 +1,5 @@
 #pragma once
-#include<memory>
+#include"pch.h"
 #ifdef HI_WINDOWS_PLATFORM
 	#ifdef HIBUILD_DLL_
 		#define HIRAETH_API __declspec(dllexport) 

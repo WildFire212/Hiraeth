@@ -1,3 +1,4 @@
+#include"pch.h"
 #include "WinWindow.h"
 #include"Hiraeth/Core/Log.h"
 #include"Hiraeth/Events/ApplicationEvent.h"
@@ -74,6 +75,14 @@ namespace Hiraeth {
 					break;
 				}
 			});
+
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) ->void
+			{
+				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+				WindowResizeEvent* windowResizeEvent= new WindowResizeEvent(width, height);
+				EventQueue::getInstance()->publish<WindowResizeEvent>(windowResizeEvent);
+			});
+
 
 	}
 

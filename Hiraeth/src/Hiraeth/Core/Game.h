@@ -1,6 +1,7 @@
 #pragma once
 #include"Hiraeth/Core/CoreEngine.h"#include"Hiraeth/Core/Window.h"
 #include"Hiraeth/Events/ApplicationEvent.h"
+#include"pch.h"
 //why not make it a singleton 
 namespace Hiraeth {
 	class HIRAETH_API Game {

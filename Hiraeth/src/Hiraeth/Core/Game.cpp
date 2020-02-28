@@ -1,5 +1,5 @@
+#include"pch.h"
 #include "Game.h"
-#include<iostream>
 #include"Hiraeth/Events/KeyEvent.h"
 #include"Hiraeth/Core/EventQueue.h"
 #include"Platform/Windows/WinWindow.h"

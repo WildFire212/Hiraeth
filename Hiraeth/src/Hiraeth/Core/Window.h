@@ -1,5 +1,4 @@
 #pragma once
-#include<string>
 #include"Hiraeth/Core/CoreEngine.h"
 namespace Hiraeth
 {

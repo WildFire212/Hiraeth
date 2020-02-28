@@ -1,6 +1,6 @@
 #pragma once
 #include"Hiraeth/Events/Event.h"	
-#include<sstream>
+
 namespace Hiraeth 
 {
 	class MouseMovedEvent : public Event
