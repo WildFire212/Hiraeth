@@ -25,6 +25,8 @@ namespace Hiraeth
 		virtual unsigned int getWidth() const = 0; 
 		virtual unsigned int getHeight() const = 0 ;
 
+		virtual void* getNativeWindow() const = 0; 
+
 	public:
 		static std::unique_ptr<Window> createWindow(const WindowProperties& props = WindowProperties());
 

@@ -17,13 +17,17 @@ workspace "Hiraeth"
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	 
 	--Include directories relative to root folder (solution directory)
-	IncludeDir = {}
-	IncludeDir["GLFW"] = "Hiraeth/submodules/GLFW/include/GLFW"
-	
+	IncludeDirArray = {}
+	IncludeDirArray["GLFW"] = "Hiraeth/submodules/GLFW/include"
+	IncludeDirArray["GLAD"] = "Hiraeth/submodules/GLAD/include"
+	IncludeDirArray["ImGUI"] = "Hiraeth/submodules/ImGUI"
+
 	group "Dependencies"
 		include "Hiraeth/submodules/GLFW"
-	
+		include "Hiraeth/submodules/GLAD"
+		include "Hiraeth/submodules/ImGUI"
 	group ""
+	
 	
 	--project Hiraeth 
 	project "Hiraeth"
@@ -49,11 +53,15 @@ workspace "Hiraeth"
 		{
 			"%{prj.name}/src",
 			"%{prj.name}/submodules/spdlog/include",
-			"%{prj.name}/submodules/GLFW/include"
+			"%{IncludeDirArray.GLAD}",
+			"%{IncludeDirArray.GLFW}",
+			"%{IncludeDirArray.ImGUI}"
 		}
 	
 		links{ 
 			"GLFW",
+			"GLAD",
+			"ImGUI",
 			"opengl32.lib"
 		}
 
@@ -62,7 +70,8 @@ workspace "Hiraeth"
 		defines
 		{
 		"HI_WINDOWS_PLATFORM",
-		"HIBUILD_DLL_"
+		"HIBUILD_DLL_",
+		"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands 
 		{

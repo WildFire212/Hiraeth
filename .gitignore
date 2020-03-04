@@ -1,0 +1,10 @@
+.vs/
+**/bin/
+**/bin-int/
+*.log
+
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+

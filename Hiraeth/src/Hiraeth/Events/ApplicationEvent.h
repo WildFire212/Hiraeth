@@ -25,6 +25,9 @@ namespace Hiraeth
 			windowResizeStream << "Window Resize Event: width(" << m_Width << ") height(" << m_Height<<")";
 			return windowResizeStream.str();
 		}
+
+		inline unsigned int getWidth() const { return m_Width; }
+		inline unsigned int getHeight() const { return m_Height; }
 		EVENT_CLASS_TYPE(WindowResize);
 		EVENT_CLASS_CATEGORY(EventCategoryApplication); 
 

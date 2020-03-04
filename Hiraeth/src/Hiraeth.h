@@ -13,3 +13,5 @@
 #include"Hiraeth/Events/Event.h"
 #include"Hiraeth/Events/KeyEvent.h"
 
+#include"Hiraeth/ImGUI/ImGUILayer.h"
+#include"Hiraeth/Core/Window.h"

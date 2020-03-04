@@ -37,8 +37,8 @@ namespace Hiraeth {
 		m_GLFWWindowCount++;
 
 		HIRAETH_CORE_INFO("Window Created"); 
-
-		//glfwMakeContextCurrent(m_Window); 
+		glfwMakeContextCurrent(m_Window); 
+		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		//glfwSetWindowUserPointer(m_Window, &m_Data); 
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) ->void
@@ -54,6 +54,23 @@ namespace Hiraeth {
 				MouseMovedEvent * mouseMovedEvent = new MouseMovedEvent(xPos, yPos);
 				EventQueue::getInstance()->publish<MouseMovedEvent>(mouseMovedEvent);
 			});
+
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button , int action , int mods) ->void 
+			{
+				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window)); 
+				if (action == GLFW_PRESS)
+				{
+				MouseButtonPressedEvent* mouseButtonPressed = new MouseButtonPressedEvent(button);
+				EventQueue::getInstance()->publish<MouseButtonPressedEvent>(mouseButtonPressed);
+				}
+				else if (action == GLFW_RELEASE)
+				{
+
+				MouseButtonReleasedEvent* mouseButtonReleased = new MouseButtonReleasedEvent(button);
+				EventQueue::getInstance()->publish<MouseButtonReleasedEvent>(mouseButtonReleased);
+				}
+
+			}); 
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window,int key,int scancode , int action , int mods) ->void
 			{
@@ -83,7 +100,7 @@ namespace Hiraeth {
 				EventQueue::getInstance()->publish<WindowResizeEvent>(windowResizeEvent);
 			});
 
-
+		//glViewport(0, 0, m_Data.m_Width, m_Data.m_Height);
 	}
 
 	void WinWindow::shutDown()

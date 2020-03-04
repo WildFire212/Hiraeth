@@ -1,6 +1,5 @@
 #pragma once
 #include"Hiraeth/Core/CoreEngine.h"
-#include"pch.h"
 namespace Hiraeth {
 
 	enum class EventType 

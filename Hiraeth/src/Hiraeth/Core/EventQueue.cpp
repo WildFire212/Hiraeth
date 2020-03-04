@@ -8,16 +8,24 @@ namespace Hiraeth
 		for ( i = m_EventQueues.begin
 			(); i != m_EventQueues.end(); ++i)
 		{
-			Event* evnt = i->second.front();
-			HandlerList* handlers = m_Subscribers[i->first];
-			if (handlers != nullptr)
+			Event* evnt;
+			if (!i->second.empty())
 			{
-				for (EventSubscriberBase* eventBase : *handlers)
+				evnt = i->second.front();
+				HandlerList* handlers = m_Subscribers[i->first];
+				if (handlers != nullptr)
 				{
-					eventBase->execute(evnt);
+					for (EventSubscriberBase* eventBase : *handlers)
+					{
+						eventBase->execute(evnt);
+					}
 				}
 			}
+			if(!i->second.empty())
+			i->second.pop();
 		}
+
+		
 	}
 
 	EventQueue* EventQueue::getInstance()

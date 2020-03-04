@@ -1,5 +1,4 @@
 #pragma once
-#include"pch.h"
 #include"Hiraeth/Core/EventSubscriberHandler.h"
 #include"Hiraeth/Core/CoreEngine.h"
 #include"Hiraeth/Core/Log.h"

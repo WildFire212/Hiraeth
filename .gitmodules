@@ -4,3 +4,6 @@
 [submodule "Hiraeth/submodules/spdlog"]
 	path = Hiraeth/submodules/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Hiraeth/submodules/ImGUI"]
+	path = Hiraeth/submodules/ImGUI
+	url = https://github.com/ocornut/imgui
