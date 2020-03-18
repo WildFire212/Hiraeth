@@ -42,6 +42,7 @@ namespace Hiraeth
 
 	EventQueue::~EventQueue()
 	{
+
 	}
 
 }

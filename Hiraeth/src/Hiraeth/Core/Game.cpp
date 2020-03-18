@@ -52,6 +52,8 @@ namespace Hiraeth {
 			EventQueue::getInstance()->relayEvents(); 
 			m_ImGUILayer->begin(); 
 			m_ImGUILayer->end(); 
+			//run client side run
+			UserRun(); 
 			m_Window->onUpdate(); 
 		}
 	}

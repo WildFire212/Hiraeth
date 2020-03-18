@@ -21,6 +21,8 @@ namespace Hiraeth {
 		Game();
 		virtual ~Game();
 
+		//functions that can be implemented by user
+		virtual void UserRun() {};
 	private: 
 		LayerStack m_LayerStack; 
 		ImGUILayer* m_ImGUILayer; 

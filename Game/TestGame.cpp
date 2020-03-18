@@ -8,6 +8,10 @@ public:
 		HIRAETH_CLIENT_INFO("Test Game constructor."); 
 	}
 
+	virtual void UserRun() override
+	{
+		//HIRAETH_CLIENT_INFO(Hiraeth::Input::getMouseX()); 
+	}
 	~TestGame() {}
 	
 };
