@@ -17,10 +17,6 @@ namespace Hiraeth
 		void begin(); 
 		void end(); 
 	private: 
-		void onKeyPressed(KeyPressedEvent* keyPressedEvent);
-		void onMouseMoved(MouseMovedEvent* mouseMovedEvent);
-		void onMouseButtonPressed(MouseButtonPressedEvent* mouseButtonEvent);
-		void onMouseButtonReleased(MouseButtonReleasedEvent* mouseButtonEvent);
-		void onWindowResize(WindowResizeEvent* windowResizeEvent);
+	
 	};
 }

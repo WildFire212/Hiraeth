@@ -1,14 +1,17 @@
 #include "pch.h"
 
-
-
-#include"Platform/OpenGL/OpenglImGUI.h"
+#include<imgui.h>
+#include<examples/imgui_impl_opengl3.h>
+#include<examples/imgui_impl_glfw.h>
 
 #include "ImGUILayer.h"
-#include"Hiraeth/Core/Game.h"
 
-#include<GLFW/glfw3.h>
+#include"Hiraeth/Core/Game.h"
 #include"Hiraeth/Core/EventQueue.h"
+
+#include<glad/glad.h>
+#include<GLFW/glfw3.h>
+
 
 namespace Hiraeth
 {
@@ -29,41 +32,23 @@ namespace Hiraeth
 		ImGuiIO& io = ImGui::GetIO();
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;         // We can honor GetMouseCursor() values (optional)
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;          // We can honor io.WantSetMousePos requests (optional, rarely used)
-		
-
-		// Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
-		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_KeyPadEnter] = GLFW_KEY_KP_ENTER;
-		io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-		io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-		io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-		io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
-
 	
+		// Setup Config flags capabilities flags	
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		//enable docking 
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	//enable keyboard
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;	//enable keyboard
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		//Enable multiviewport
+	
+		ImGuiStyle& style = ImGui::GetStyle(); 
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f; 
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
 		GLFWwindow* window = static_cast<GLFWwindow*>(Game::getInstance().getWindow().getNativeWindow()); 
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 		
-		EventQueue::getInstance()->subscribe<ImGUILayer, KeyPressedEvent>(this, &ImGUILayer::onKeyPressed);
-		EventQueue::getInstance()->subscribe<ImGUILayer, MouseMovedEvent>(this, &ImGUILayer::onMouseMoved);
-		EventQueue::getInstance()->subscribe<ImGUILayer, MouseButtonPressedEvent>(this, &ImGUILayer::onMouseButtonPressed);
-		EventQueue::getInstance()->subscribe<ImGUILayer, MouseButtonReleasedEvent>(this, &ImGUILayer::onMouseButtonReleased);
-		EventQueue::getInstance()->subscribe<ImGUILayer, WindowResizeEvent>(this, &ImGUILayer::onWindowResize);
 	}
 
 	void ImGUILayer::onDetach()
@@ -79,52 +64,31 @@ namespace Hiraeth
 		io.DisplaySize = ImVec2(game.getWindow().getWidth(), game.getWindow().getHeight()); 
 		
 		ImGui_ImplOpenGL3_NewFrame();
-		//ImGui_ImplGlfw_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
 	void ImGUILayer::end()
 	{
+		ImGuiIO& io = ImGui::GetIO();
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	}
-	void ImGUILayer::onKeyPressed(KeyPressedEvent* keyPressedEvent)
-	{
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[keyPressedEvent->getKeyCode()] = true;
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+
+			ImGui::UpdatePlatformWindows();
+
+			ImGui::RenderPlatformWindowsDefault();
+
+			glfwMakeContextCurrent(backup_current_context);
+
+		}
+
+	}
 	
-		// Modifiers are not reliable across systems
-		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-	} 
-	void ImGUILayer::onMouseMoved(MouseMovedEvent* mouseMovedEvent)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.MousePos = ImVec2(mouseMovedEvent->getX(), mouseMovedEvent->getY());
-	}
-
-	void ImGUILayer::onMouseButtonPressed(MouseButtonPressedEvent* mouseButtonEvent)
-	{
-		ImGuiIO& io = ImGui::GetIO(); 
-		io.MouseDown[mouseButtonEvent->getMouseButton()] = true; 
-	}
-
-	void ImGUILayer::onMouseButtonReleased(MouseButtonReleasedEvent* mouseButtonEvent)
-	{
-		ImGuiIO& io = ImGui::GetIO(); 
-		io.MouseDown[mouseButtonEvent->getMouseButton()] = false; 
-	}
-
-	void ImGUILayer::onWindowResize(WindowResizeEvent* windowResizeEvent)
-	{
-		ImGuiIO& io = ImGui::GetIO(); 
-		io.DisplaySize = ImVec2(windowResizeEvent->getWidth(), windowResizeEvent->getHeight()); 
-		io.DisplayFramebufferScale = ImVec2(1.0f, 1.f); 
-		glViewport(0, 0, windowResizeEvent->getWidth(), windowResizeEvent->getHeight());
-	}
 }

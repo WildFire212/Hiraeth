@@ -21,6 +21,7 @@ workspace "Hiraeth"
 	IncludeDirArray["GLFW"] = "Hiraeth/submodules/GLFW/include"
 	IncludeDirArray["GLAD"] = "Hiraeth/submodules/GLAD/include"
 	IncludeDirArray["ImGUI"] = "Hiraeth/submodules/ImGUI"
+	IncludeDirArray["GLM"] =  "Hiraeth/submodules/GLM"
 
 	group "Dependencies"
 		include "Hiraeth/submodules/GLFW"
@@ -55,7 +56,9 @@ workspace "Hiraeth"
 			"%{prj.name}/submodules/spdlog/include",
 			"%{IncludeDirArray.GLAD}",
 			"%{IncludeDirArray.GLFW}",
-			"%{IncludeDirArray.ImGUI}"
+			"%{IncludeDirArray.ImGUI}",
+			"%{IncludeDirArray.GLM}",
+			
 		}
 	
 		links{ 
@@ -120,7 +123,8 @@ project "Game"
 		includedirs
 		{
 			"Hiraeth/src",
-			"Hiraeth/submodules/spdlog/include"
+			"Hiraeth/submodules/spdlog/include",
+			"Hiraeth/submodules/GLM"
 		}
 		files
 		{
