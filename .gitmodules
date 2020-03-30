@@ -7,3 +7,6 @@
 [submodule "Hiraeth/submodules/ImGUI"]
 	path = Hiraeth/submodules/ImGUI
 	url = https://github.com/ocornut/imgui
+[submodule "Hiraeth/submodules/GLM"]
+	path = Hiraeth/submodules/GLM
+	url = https://github.com/g-truc/glm
